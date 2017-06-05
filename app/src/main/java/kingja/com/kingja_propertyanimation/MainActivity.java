@@ -1,8 +1,11 @@
 package kingja.com.kingja_propertyanimation;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,30 +28,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         target = findViewById(R.id.target);
         goal = findViewById(R.id.goal);
         findViewById(R.id.btn_translate).setOnClickListener(this);
-//        ViewTreeObserver vto2 = goal.getViewTreeObserver();
-//        vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                goal.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                Log.e(TAG, "getX: " + goal.getX());
-//                Log.e(TAG, "getY: " + goal.getY());
-//                int[] locationScreen=new int[2];
-//                int[] locationWindow=new int[2];
-//                goal.getLocationOnScreen(locationScreen);
-//                goal.getLocationInWindow(locationWindow);
-//                Log.e(TAG, "getLocationOnScreenX: " + locationScreen[0]);
-//                Log.e(TAG, "getLocationOnScreenY: " + locationScreen[1]);
-//                Log.e(TAG, "getLocationInWindowX: " + locationWindow[0]);
-//                Log.e(TAG, "getLocationInWindowY: " + locationWindow[1]);
-//            }
-//        });
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_translate:
-   target.animate().translationX(200).rotationX(360).setDuration(1000).start();
+               target.animate().x(locationGoal[0]).y(locationGoal[1]-getStateHegiht()).setDuration(3000).start();
 
                 break;
             default:
@@ -57,15 +44,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void argbAnimator() {
-        ValueAnimator argbAnimator = ValueAnimator.ofArgb(0xffff0000,0xff00ff00,0xff0000ff);
-        argbAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                target.setBackgroundColor((Integer) animation.getAnimatedValue());
-            }
-        });
-        argbAnimator.setDuration(3000);
-        argbAnimator.start();
+
+//        ValueAnimator argbAnimator = ValueAnimator.ofArgb(0xffff0000,0xff00ff00,0xff0000ff);
+//        argbAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                target.setBackgroundColor((Integer) animation.getAnimatedValue());
+//            }
+//        });
+//        argbAnimator.setDuration(3000);
+//        argbAnimator.start();
     }
 
     private void doAlpha() {
@@ -135,11 +123,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onWindowFocusChanged(hasFocus);
         locationTarget = new int[2];
         locationGoal = new int[2];
-        target.getLocationOnScreen(locationTarget);
-        goal.getLocationOnScreen(locationGoal);
-//        Log.e(TAG, "getLocationOnScreenX: " + locationTarget[0]);
-//        Log.e(TAG, "getLocationOnScreenY: " + locationTarget[1]);
-//        Log.e(TAG, "getLocationInWindowX: " + locationGoal[0]);
-//        Log.e(TAG, "getLocationInWindowY: " + locationGoal[1]);
+        target.getLocationInWindow(locationTarget);
+        goal.getLocationInWindow(locationGoal);
+        Log.e(TAG, "getLocationOnScreenX: " + locationTarget[0]);
+        Log.e(TAG, "getLocationOnScreenY: " + locationTarget[1]);
+        Log.e(TAG, "getLocationInWindowX: " + locationGoal[0]);
+        Log.e(TAG, "getLocationInWindowY: " + locationGoal[1]);
+        getStateHegiht();
+    }
+
+    public int getStateHegiht() {
+        Rect rectangle= new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rectangle);
+        return rectangle.top;
     }
 }

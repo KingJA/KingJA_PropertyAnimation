@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
         android:orientation="vertical">
 
         <View
@@ -23,8 +22,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="50dp"
-            android:background="#4382b9"
-            android:visibility="gone" />
+            android:background="#4382b9" />
     </LinearLayout>
 
     <LinearLayout
